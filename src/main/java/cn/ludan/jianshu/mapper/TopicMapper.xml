@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ludan.jianshu.dao.TopicDAO">
+
+    <!--封装热门专题查询的结果集-->
+    <resultMap id="hotTopicResult" type="Topic">
+        <id property="topic_id" column="topic_id"/>
+        <result property="topic_name" column="topic_name"></result>
+        <result property="logo" column="logo"></result>
+    </resultMap>
+
+    <!--封装专题详情查询的结果集-->
+    <resultMap id="topicView" type="TopicView">
+        <id property="topic_id" column="topic_id"/>
+        <result property="topic_name" column="topic_name"></result>
+        <result property="logo" column="logo"></result>
+        <result property="notice" column="notice"></result>
+        <result property="article_count" column="article_count"></result>
+        <result property="follow_count" column="follow_count"></result>
+        <result property="nickname" column="nickname"></result>
+        <result property="head" column="head"></result>
+        <collection property="followUsers" column="topic_id"
+                    javaType="ArrayList" select="getUsers"></collection>
+        <collection property="articles" column="topic_id"
+                    javaType="ArrayList" select="getArticles"></collection>
+    </resultMap>
+
+
+
+    <!--查询热门专题-->
+    <select id="getHotTopics" resultMap="hotTopicResult">
+        SELECT t.topic_id,t.topic_name,t.logo
+        FROM t_topic t
+        ORDER BY t.follow_count DESC
+        LIMIT 0,6
+    </select>
+
+    <!--主查询-->
+    <select id="getTopicView" parameterType="Integer" resultMap="topicView">
+        SELECT *
+        FROM t_topic t,t_user u
+        WHERE t.user_id=u.user_id AND
+        t.topic_id=#{topic_id}
+    </select>
+
+    <!--专题所有关注列表子查询-->
+    <select id="getUsers" parameterType="Integer" resultType="User">
+        SELECT
+        u.nickname AS nickname,
+        u.head AS head
+        FROM t_topic_follow t,t_user u
+        WHERE
+        t.user_id=u.user_id
+        AND
+        t.topic_id=#{topic_id}
+    </select>
+
+    <!--专题所有文章列表子查询-->
+    <select id="getArticles" parameterType="Integer" resultType="ArticleView">
+        SELECT *
+        FROM t_article a,t_user u
+        WHERE
+        a.user_id=u.user_id
+        AND
+        a.topic_id=#{topic_id}
+        ORDER BY a.read_count DESC
+    </select>
+
+</mapper>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>简书 - 创作你的创作</title>
+    <link rel="stylesheet" href="dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/jianshu.css"/>
+    <link rel="stylesheet" href="css/sweetalert.css"/>
+    <script type="text/javascript" src="js/angular.js"></script>
+    <script type="text/javascript" src="js/angular-route.js"></script>
+    <script type="text/javascript" src="js/jquery-2.1.0.js"></script>
+    <script type="text/javascript" src="js/sweetalert.min.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/HomeController.js"></script>
+    <script type="text/javascript" src="js/TopicController.js"></script>
+    <script type="text/javascript" src="js/ArticleController.js"></script>
+    <script type="text/javascript" src="js/allTopicController.js"></script>
+    <script type="text/javascript" src="js/allUserController.js"></script>
+    <script type="text/javascript" src="js/MessageController.js"></script>
+    <script type="text/javascript" src="js/UserController.js"></script>
+    <script type="text/javascript" src="js/personalController.js"></script>
+    <script type="text/javascript" src="js/LoginController.js"></script>
+</head>
+<body ng-app="MyApp" ng-controller="HomeController">
+<nav class="nav navbar-default nav_css">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+                <img ng-src="img/indexImg/tubiao.png" style="width: 55px;height: 26px;"/>
+            </a>
+        </div>
+        <ul class="nav navbar-nav" style="margin-left: 60px">
+            <li>
+                <a href="#/home" style="color: #ea6f5a;font-size: 17px ">发现</a>
+            </li>
+            <li ng-if="!token" class="li">
+                <a href="#" >下载app</a>
+            </li>
+            <li ng-if="token" class="li">
+                <a href="#/message">消息</a>
+            </li>
+
+        </ul>
+        <div class="navbar-form navbar-left">
+            <div class="input-group">
+                <input type="text" class="form-control" ng-model="searchText" style="width: 200px" placeholder="搜索">
+                <span class="input-group-btn">
+                            <button class="btn btn-default">
+                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                            </button>
+                        </span>
+            </div><!-- /input-group -->
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+            <li ng-if="!token">
+                <a href="sign_in.html" style="color: #ea6f5a;font-size: 17px ">登录</a>
+            </li>
+            <li ng-if="token">
+                <a href="#/personal">
+                    <img ng-src="{{user.head}}" class="img-circle head"/>
+                </a>
+            </li>
+            <li style="margin-top: 8px;margin-right: 30px;">
+                <a href="writeContext.html" class="btn" style="color: #FFFFFF;background: #ea6f5a;
+                width: 100px;height: 40px;font-size: 15px;padding: 10px">
+                    <span class="glyphicon glyphicon-leaf" aria-hidden="true"></span>
+                    <span>写文章</span>
+                </a>
+            </li>
+
+        </ul>
+    </div>
+</nav>
+
+
+<div ng-view></div>
+
+</body>
+</html>

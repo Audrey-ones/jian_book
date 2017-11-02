@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/login.css"/>
+    <link rel="stylesheet" href="css/sweetalert.css"/>
+    <script type="text/javascript" src="js/angular.js"></script>
+    <script type="text/javascript" src="js/angular-route.js"></script>
+    <script type="text/javascript" src="js/sweetalert.min.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/LoginController.js"></script>
+    <title>简书登录</title>
+</head>
+<body ng-app="MyApp" ng-controller="LoginController">
+<div class="col-md-3">
+    <a href="index.html" style="text-decoration: none">
+        <img src="img/indexImg/login_jianshu.png" style="width: 100px;
+    height: 46px;margin-top: 45px;margin-left: 40px;">
+    </a>
+</div>
+<div class="col-md-9">
+    <div class="main">
+        <div class="col-md-1"></div>
+        <div class="col-md-11">
+            <div style="margin-top: 60px;margin-left: 98px">
+                <a href="#" class="login"
+                   style="text-decoration: none;color: #ea6f5a;
+                   border-bottom: 1px solid">登录</a>
+                <span class="register">·</span>
+                <a href="sign_up.html" class="register"
+                   style="text-decoration: none;color: #787878">注册</a>
+            </div>
+            <div style="margin-top: 70px">
+               <!-- <div class="col-md-1">
+                    <img class="img" src="img/indexImg/account.png">
+                    <img class="img" src="img/indexImg/pass.png">
+                </div>-->
+                <div class="col-md-9">
+                    <input type="text" class="form-control" placeholder="账号"
+                           style="width: 280px;height: 50px;border: none;background-color: #f1f1f1" ng-model="user.account">
+                    <input type="password" class="form-control" placeholder="密码"
+                           style="width: 280px;height: 50px;border: none;background-color: #f1f1f1" ng-model="user.password">
+                    <p style="margin-top: 15px;color: #787878">
+                        <span><input type="checkbox"> 记住我</span>
+                        <span style="margin-left: 70px;color: #ea6f5a;cursor: pointer">登录遇到问题？</span>
+                    </p>
+                </div>
+                <div class="col-md-1">
+                    <img class="img" src="img/indexImg/account.png">
+                    <img class="img" src="img/indexImg/pass.png">
+                </div>
+            </div>
+            <button class="btn btn-primary loginBtn" ng-click="signIn(user)">登录</button>
+            <hr/>
+            <img style="cursor: pointer" src="img/indexImg/link1.png">
+
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

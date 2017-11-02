@@ -1,0 +1,38 @@
+<div class="container" style="width: 960px;min-height: 300px">
+    <img src="img/indexImg/recommend-author.png" class="recommend_collectionImg"/>
+    <div class="row">
+        <input ng-model="text" type="text" class="form-control" placeholder="搜索专题"
+               style="width: 40%;margin-top: 20px">
+        <div ng-repeat="allUser in allUsers | filter:text" class="col-md-4">
+            <div class="topicContainer" style="margin-top: 75px">
+                <a href="#/user/{{allUser.user_id}}" style="margin-left: 85px;">
+                    <img ng-src="{{allUser.head}}" class="img-circle" style="margin-top: -36px;width: 80px;height: 80px;" />
+                </a>
+                <h4 style="text-align: center;">
+                    <a href="#/user/{{allUser.user_id}}" style="text-decoration: none;font-weight: 700;color: #333333;">{{allUser.nickname}}<!--分类标题--></a>
+                </h4>
+                <p style="font-size: 13px;line-height: 25px;text-align: center;height: 50px;overflow: hidden">
+                    {{allUser.description}}<!--分类内容-->
+                </p>
+                <button class="btn btn-success" style="background-color: #42c02e;margin-left: 78px;width: 40%;border-radius: 12px;">
+                    +关注
+                </button>
+                <div style="color: #969696;margin-top: 20px">最近更新</div>
+                <div style="border-bottom: 1px solid #969696;margin-top: 10px"></div>
+                <div style="font-size: 13px;text-align: center;margin-top: 15px;min-height: 75px">
+                    <a href="#/user/{{allUser.user_id}}" style="text-decoration: none;color: #3c3c3c">{{allUser.new}}</a>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+</div>
+
+
+<!--
+<div>
+    <h2>所有推荐用户</h2>
+</div>-->

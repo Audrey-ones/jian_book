@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/login.css"/>
+    <link rel="stylesheet" href="css/sweetalert.css"/>
+    <script type="text/javascript" src="js/angular.js"></script>
+    <script type="text/javascript" src="js/angular-route.js"></script>
+    <script type="text/javascript" src="js/sweetalert.min.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/RegisterController.js"></script>
+    <title>简书注册</title>
+</head>
+<body ng-app="MyApp" ng-controller="RegisterController">
+<div class="col-md-3">
+    <a href="index.html" style="text-decoration: none">
+        <img src="img/indexImg/login_jianshu.png" style="width: 100px;
+    height: 46px;margin-top: 45px;margin-left: 40px;">
+    </a>
+</div>
+<div class="col-md-9">
+    <div class="main">
+        <div class="col-md-1"></div>
+        <div class="col-md-11">
+            <div style="margin-top: 60px;margin-left: 98px">
+                <a href="sign_in.html" class="login"
+                   style="text-decoration: none;color: #787878">登录</a>
+                <span class="register">·</span>
+                <a href="#" class="register"
+                   style="text-decoration: none;color: #ea6f5a;
+                   border-bottom: 1px solid;">注册</a>
+            </div>
+            <div style="margin-top: 23px">
+                <!--<div class="col-md-1">
+                    <img class="img" src="img/indexImg/id.png">
+                    <img class="img" src="img/indexImg/account.png">
+                    <img class="img" src="img/indexImg/pass.png">
+                </div>-->
+                <div class="col-md-9">
+                    <input type="text" class="form-control" placeholder="你的昵称"
+                           style="width: 280px;height: 50px;border: none;
+                           background-color: #f1f1f1" ng-model="nickname">
+                    <input type="text" class="form-control" placeholder="设置账号"
+                           style="width: 280px;height: 50px;border: none;
+                           background-color: #f1f1f1" ng-model="account">
+                    <input type="password" class="form-control" placeholder="设置密码"
+                           style="width: 280px;height: 50px;border: none;background-color: #f1f1f1" ng-model="password">
+                </div>
+                <div class="col-md-1">
+                    <img class="img" src="img/indexImg/id.png">
+                    <img class="img" src="img/indexImg/account.png">
+                    <img class="img" src="img/indexImg/pass.png">
+                </div>
+            </div>
+            <button class="btn btn-success loginBtn" style="margin-top: 175px;
+            background-color: #42c02e;"
+               ng-click="signUp(nickname,account,password)">注册</button>
+            <hr/>
+            <img style="cursor: pointer" src="img/indexImg/link2.png">
+
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

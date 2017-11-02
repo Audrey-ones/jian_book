@@ -1,0 +1,111 @@
+<div class="col-md-2"></div>
+<div class="col-md-6">
+    <div style="margin-top: 30px">
+        <img class="img-rounded" ng-src="{{topic.logo}}" style="width: 80px;height: 80px">
+        <div style="font-size: 21px;font-weight: 700;margin-top: -10px;margin-left: 30px;display: inline">{{topic.topic_name}}</div>
+        <div style="margin-left: 115px;margin-top: -25px;color: #787878">
+            <span>收录了{{topic.article_count}}篇文章 ·</span>
+            <span>{{topic.follow_count}}人关注</span>
+        </div>
+        <button class="btn btn-success" style="margin-top: -120px;margin-left: 400px;color: #42c02e;border: 1px solid;background-color: #ffffff">投稿</button>
+        <input type="hidden" id="topic_id" value="{{topic.topic_id}}"/>
+        <input type="hidden" id="user_id" value="{{user.user_id}}"/>
+        <button class="btn btn-success" style="margin-top: -160px;margin-left: 480px;background-color: #42c02e" ng-click="followTopic(topicFollow)">+关注</button>
+        <div class="topTopicCon" style="width: 640px;margin-top: 0px">
+            <ul style="display: inline-block;list-style: none;">
+                <li style="float: left;">
+                    <a href="#" style="color: #333333;">
+                        <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+                        <span>最新评论</span>
+                    </a>
+
+                </li>
+                <li style="float: left;margin-left: 50px;">
+                    <a href="#" style="color: #333333;">
+                        <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+                        <span>最新收录</span>
+                    </a>
+                </li>
+                <li style="float: left;margin-left: 50px;">
+                    <a href="#" style="color: #333333;">
+                        <span class="glyphicon glyphicon-fire" aria-hidden="true"></span>
+                        <span>热门</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="list-group" style="width: 625px;margin-bottom: 10px">
+            <div ng-repeat="article in topic.articles" class="list-group-item listItem"  >
+                <div style="cursor: pointer"><!--author信息-->
+                    <img class="img-circle" ng-src="{{article.head}}" style="height: 32px;height: 32px">
+                    <div class="text_">{{article.nickname}}</div>
+                    <div class="text_" style="color: #787878">
+                        {{article.write_time | date:'yyyy-MM-dd HH:mm'}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8" style="margin-top: 10px"><!--content-->
+                        <a href="#/article/{{article.article_id}}" class="title" style="color: #0f0f0f">
+                            {{article.title}}
+                        </a>
+                        <p class="p" style="height: 75px;overflow: hidden;text-overflow: ellipsis">
+                            {{article.content}}
+                        </p>
+                    </div>
+                    <div class="col-md-4">
+                        <img ng-src="{{article.thumbnail}}" style="width: 150px;height: 120px;border-radius: 4px">
+                    </div>
+                </div>
+
+                <div style="margin-top: 10px;margin-bottom: 20px"><!--底部标签等信息-->
+                    <a href="#" style="text-decoration: none;color: #787878">
+                        <span class="glyphicon glyphicon-comment" aria-hidden="true" style="margin-left: 10px"></span>
+                        <span>{{article.read_count}}<!--回复--></span>
+                    </a>
+                    <a href="#" style="text-decoration: none;color: #787878">
+                        <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true" style="margin-left: 10px"></span>
+                        <span>{{article.comment_count}}<!--点赞--></span>
+                    </a>
+                    <a href="#" style="text-decoration: none;color: #787878">
+                        <span class="glyphicon glyphicon-heart" aria-hidden="true" style="margin-left: 10px"></span>
+                        <span>{{article.like_count}}<!--喜欢--></span>
+                    </a>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-3">
+    <div class="gonggao" style="margin-top: 30px">
+        <h5 style="color: #787878">专题公告</h5>
+        <p style="line-height: 25px">
+            {{topic.notice}}
+        </p>
+    </div>
+    <hr/>
+    <div style="color: #787878">分享至</div>
+    <hr/>
+    <div>
+        <div style="color: #787878">创建者</div>
+        <div style="margin-top: 10px">
+            <img class="img-circle" ng-src="{{topic.head}}" style="width: 48px;height: 48px;">
+            <span>{{topic.nickname}}</span>
+        </div>
+    </div>
+    <hr/>
+    <div>
+        <div style="color: #787878">关注的人</div>
+        <img ng-repeat="care_user in topic.followUsers"
+             class="img-circle" ng-src="{{care_user.head}}"
+             style="width: 48px;height: 48px;margin-top: 10px">
+        <!--<span>{{care_user.nickname}}</span>-->
+    </div>
+    <hr/>
+</div>
+<div class="col-md-1"></div>
+<!--
+<div>
+    <h2>专题{{id}}详情</h2>
+</div>-->

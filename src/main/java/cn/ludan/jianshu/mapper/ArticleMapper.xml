@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ludan.jianshu.dao.ArticleDAO">
+    <!--热门文章结果集-->
+    <resultMap id="hotArticles" type="ArticleView">
+        <id property="article_id" column="article_id"></id>
+        <result property="title" column="title"></result>
+        <result property="content" column="content"></result>
+        <result property="thumbnail" column="thumbnail"></result>
+        <result property="read_count" column="read_count"></result>
+        <result property="comment_count" column="comment_count"></result>
+        <result property="like_count" column="like_count"></result>
+        <result property="write_time" column="write_time"></result>
+        <result property="user_id" column="user_id"/>
+        <result property="head" column="head"></result>
+        <result property="nickname" column="nickname"></result>
+        <result property="topic_id" column="topic_id"/>
+        <result property="topic_name" column="topic_name"></result>
+    </resultMap>
+
+    <!--文章详情结果集-->
+    <resultMap id="articleDetails" type="ArticleDetails">
+        <id property="article_id" column="article_id"></id>
+        <result property="title" column="title"></result>
+        <result property="content" column="content"></result>
+        <result property="thumbnail" column="thumbnail"></result>
+        <result property="read_count" column="read_count"></result>
+        <result property="comment_count" column="comment_count"></result>
+        <result property="like_count" column="like_count"></result>
+        <result property="write_time" column="write_time"></result>
+        <result property="head" column="head"></result>
+        <result property="nickname" column="nickname"></result>
+        <result property="topic_name" column="topic_name"></result>
+        <result property="write_count" column="write_count"/>
+        <result property="fans_count" column="fans_count"/>
+        <collection property="comments" column="article_id"
+                    javaType="ArrayList" select="getComments"/>
+    </resultMap>
+    <!--<resultMap id="articleDetails" type="ArticleDetails">
+        <id property="article_id" column="article_id"/>
+        <association property="article" column="article_id"
+                     javaType="Article"/>
+        <association property="user" column="article_id"
+                     javaType="User"/>
+        <collection property="comments" column="article_id"
+                    javaType="ArrayList" select="getComments"/>
+    </resultMap>-->
+
+    <select id="getHotArticles" resultMap="hotArticles">
+        SELECT *
+        FROM
+        t_article a,
+        t_topic t,
+        t_user u
+        WHERE a.topic_id=t.topic_id AND a.user_id=u.user_id
+        ORDER BY a.read_count DESC
+    </select>
+
+    <select id="getArticleDetails" parameterType="Integer" resultMap="articleDetails">
+        SELECT *
+        FROM t_article a,t_user u
+        WHERE a.user_id=u.user_id AND
+        a.article_id=#{article_id}
+    </select>
+
+    <select id="getComments" parameterType="Integer" resultType="CommentView">
+        SELECT *
+        FROM t_user u,t_comment c
+        WHERE c.user_id = u.user_id AND
+        c.article_id=#{article_id}
+        ORDER BY c.comment_id DESC
+    </select>
+
+</mapper>

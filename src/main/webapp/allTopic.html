@@ -1,0 +1,62 @@
+<div class="container" style="width: 960px;">
+    <img src="img/indexImg/recommend-collection.png" class="recommend_collectionImg"/>
+    <div class="topTopicCon">
+        <input ng-model="text" type="text" class="form-control" placeholder="搜索专题"
+               style="width: 40%">
+        <ul style="display: inline-block;list-style: none;margin-top: 20px">
+            <li style="float: left;">
+                <a href="#" style="color: #333333;">
+                    <span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span>
+                    推荐
+                </a>
+
+            </li>
+            <li style="float: left;margin-left: 50px;">
+                <a href="#" style="color: #333333;">
+                    <span class="glyphicon glyphicon-fire" aria-hidden="true"></span>
+                    热门
+                </a>
+            </li>
+            <li style="float: left;margin-left: 50px;">
+                <a href="#" style="color: #333333;">
+                    <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+                    城市
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="row">
+        <div ng-repeat="allTopic in allTopics | filter:text " class="col-md-4">
+            <div class="topicContainer">
+                <a href="#/topic/{{allTopic.topic_id}}" style="margin-left: 85px;">
+                    <img ng-src="{{allTopic.logo}}" style="margin-top: -36px;width: 80px;height: 80px;border-radius: 10%;" />
+                </a>
+                <h4 style="text-align: center;">
+                    <a href="#/topic/{{allTopic.topic_id}}" style="text-decoration: none;font-weight: 700;color: #333333;">{{allTopic.topic_name}}<!--分类标题--></a>
+                </h4>
+                <p style="font-size: 13px;height: 25px;text-align: center;min-height: 55px;overflow: hidden">
+                   {{allTopic.notice}}<!--分类内容-->
+                </p>
+                <p style="text-align: center">...</p>
+                <button class="btn btn-success" style="background-color: #42c02e;margin-left: 78px;width: 40%;border-radius: 12px;">
+                    +关注
+                </button>
+                <hr />
+                <div style="font-size: 14px;text-align: center;margin-bottom: 20px;">
+                    <a href="#" style="text-decoration: none;color: #333333;">{{allTopic.article_count}}篇文章</a>
+                    ·{{allTopic.follow_count}}人关注
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+</div>
+
+
+<!--
+<div>
+    <h2>所有热点专题</h2>
+</div>-->

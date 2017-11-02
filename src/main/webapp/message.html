@@ -1,0 +1,154 @@
+<div style="margin-top: 30px">
+    <div class="col-md-1"></div>
+    <div class="col-md-3" >
+        <div ng-init='activeTab=1' class="btn-group-vertical" role="group" style="width: 280px;">
+            <button class="btn btn-default"
+                    ng-class='{active:activeTab==1}' ng-click='activeTab=1'
+                    style="border: none;height: 55px;font-size: 16px;border-radius: 10px">
+                <span class="glyphicon glyphicon-comment" aria-hidden="true" style="color: #ea6f5a"></span>
+                <span style="margin-left: 10px">评论</span>
+            </button>
+            <button class="btn btn-default"
+                    ng-class='{active:activeTab==2}' ng-click='activeTab=2'
+                    style="border: none;height: 55px;font-size: 16px;border-radius: 10px">
+                <span class="glyphicon glyphicon-envelope" aria-hidden="true" style="color: #ea6f5a"></span>
+                <span style="margin-left: 10px">简信</span>
+            </button>
+            <button class="btn btn-default"
+                    ng-class='{active:activeTab==3}' ng-click='activeTab=3'
+                    style="border: none;height: 55px;font-size: 16px;border-radius: 10px">
+                <span class="glyphicon glyphicon-export" aria-hidden="true" style="color: #ea6f5a"></span>
+                <span style="margin-left: 10px">关注</span>
+            </button>
+            <button class="btn btn-default"
+                    ng-class='{active:activeTab==4}' ng-click='activeTab=4'
+                    style="border: none;height: 55px;font-size: 16px;border-radius: 10px">
+                <span class="glyphicon glyphicon-heart-empty" aria-hidden="true" style="color: #ea6f5a"></span>
+                <span style="margin-left: 10px">喜欢</span>
+            </button>
+        </div>
+    </div>
+    <div class="col-md-8" >
+        <div ng-show='activeTab==1'>
+            <p >收到的评论：</p>
+            <div  class="tab1" ng-repeat="comment in tab.comments">
+                <a href="#/user/{{comment.user_id}}" style="text-decoration: none">
+                    <img ng-src="{{comment.head}}" style="border-radius: 50%;width: 40px;"/>
+                </a>
+                <span style="margin-left: 10px">
+                    {{comment.nickname}} 评论了我的
+                    <a href="#/article/{{comment.article_id}}">《{{comment.title}}》</a>:
+                </span>
+                <p style="font-size: 14px;margin-left: 50px;color: #787878">
+                    "{{comment.content}}"
+                </p>
+                <p style="font-size: 12px;margin-left: 50px;color: #787878">
+                    {{comment.comment_time | date:'yyyy-MM-dd HH:mm'}}
+                </p>
+                <hr style="color: ghostwhite">
+            </div>
+        </div>
+        <div ng-show='activeTab==2'>
+            <p >收到的简信：</p>
+            <div class="tab2" ng-repeat="message in tab.letters">
+                <a href="#/user/{{message.from_id}}" style="text-decoration: none">
+                    <img ng-src="{{message.head}}" style="border-radius: 50%;width: 40px;"/>
+                </a>
+                <span style="margin-left: 10px">{{message.nickname}} 发了一条简信。</span>
+                <p style="font-size: 14px;margin-left: 50px;color: #787878">
+                    "{{message.content}}"
+                </p>
+                <p style="font-size: 12px;margin-left: 50px;color: #787878">
+                    {{message.letter_time | date:'yyyy-MM-dd HH:mm'}}
+                </p>
+                <hr style="color: ghostwhite">
+            </div>
+
+        </div>
+        <div ng-show='activeTab==3'>
+            <p >收到的关注：</p>
+            <div class="tab3" ng-repeat="attention in tab.authorFollows">
+                <a href="#/user/{{attention.user_id}}" style="text-decoration: none">
+                    <img ng-src="{{attention.head}}" style="border-radius: 50%;width: 40px;"/>
+                </a>
+                {{attention.nickname}} 关注了我。
+                <hr style="color: ghostwhite">
+            </div>
+
+        </div>
+        <div ng-show='activeTab==4'>
+            <p >收到的喜欢：</p>
+            <div class="tab4" ng-repeat="like in tab.articleLike">
+                <a href="#/user/{{like.user_id}}" style="text-decoration: none">
+                    <img ng-src="{{like.head}}" style="border-radius: 50%;width: 40px;"/>
+                </a>
+                {{like.nickname}} 喜欢了我的
+                <a href="#/article/{{like.article_id}}">《{{like.title}}》</a>
+                <hr style="color: ghostwhite">
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!--
+<div style="margin-top: 30px">
+    <div class="col-md-1"></div>
+    <div class="col-md-3" >
+        <div class="btn-group-vertical" role="group" style="width: 280px;">
+            <button ng-repeat="tab in tabs" class="btn btn-default"
+                    class="{{now==$index?'active':''}}"  ng-click="show($index)"
+                    style="border: none;height: 55px;font-size: 16px;border-radius: 10px">
+                <span class="{{tab.icon}}" aria-hidden="true" style="color: #ea6f5a"></span>
+                <span style="margin-left: 10px">{{tab.name}}</span>
+            </button>
+        </div>
+    </div>
+    <div class="col-md-8"  ng-show="now==$index" ng-repeat="tab in tabs">
+            <div ng-if="$index==0">
+                <p >收到的评论：</p>
+                <div  class="tab1" ng-repeat="comment in tab.content">
+                    <img src="img/topicImg/{{comment.head}}" style="border-radius: 50%;width: 40px;"/>
+                    {{comment.name}}评论了我的<a>《{{comment.title}}》</a>:
+                    <p style="font-size: 12px;margin-left: 45px;color: #787878">{{comment.comment_time}}</p>
+                    <p>{{comment.content}}</p>
+                    <hr style="color: ghostwhite">
+                </div>
+            </div>
+            <div ng-if="$index==1">
+                <p >收到的简信：</p>
+                <div class="tab2" ng-repeat="message in tab.message">
+                    <img src="img/topicImg/{{message.head}}" style="border-radius: 50%;width: 40px;"/>
+                    {{message.name}}给你发了一条简信。
+                    <p style="font-size: 12px;margin-left: 45px;color: #787878">{{message.comment_time}}</p>
+                    <hr style="color: ghostwhite">
+                </div>
+
+            </div>
+            <div ng-if="$index==2">
+                <p >收到的关注：</p>
+                <div class="tab3" ng-repeat="attention in tab.attention">
+                    <img src="img/topicImg/{{attention.head}}" style="border-radius: 50%;width: 40px;"/>
+                    {{attention.name}}关注了我。
+                    <hr style="color: ghostwhite">
+                </div>
+
+            </div>
+            <div ng-if="$index==3">
+                <p >收到的喜欢和赞：</p>
+                <div class="tab4" ng-repeat="like in tab.like">
+                    <img src="img/authorImg/{{like.head}}" style="border-radius: 50%;width: 40px;"/>
+                    {{like.name}}赞赏了我。
+                    <hr style="color: ghostwhite">
+                </div>
+
+            </div>
+        </div>
+</div>
+-->
+
+<!--<div>
+    <h2>消息页面</h2>
+</div>-->
+

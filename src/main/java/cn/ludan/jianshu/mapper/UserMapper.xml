@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ludan.jianshu.dao.UserDAO">
+
+    <!--热门用户结果集-->
+    <resultMap id="hotAuthors" type="User">
+        <id property="user_id" column="user_id"/>
+        <result property="nickname" column="nickname"/>
+        <result property="head" column="head"/>
+        <result property="write_count" column="write_count"/>
+        <result property="fans_count" column="fans_count"/>
+    </resultMap>
+    <!--热门作者查询-->
+    <select id="getHotUsers" resultMap="hotAuthors">
+        SELECT u.user_id,u.nickname,u.head,u.write_count,u.fans_count
+        FROM t_user u
+        ORDER BY u.fans_count DESC
+        LIMIT 0,5
+    </select>
+
+    <!--用户详情结果集-->
+    <resultMap id="userView" type="UserView">
+        <id property="user_id" column="user_id"/>
+        <result property="nickname" column="nickname"/>
+        <result property="head" column="head"/>
+        <result property="write_count" column="write_count"/>
+        <result property="fans_count" column="fans_count"/>
+        <collection property="createTopic" column="user_id"
+                    javaType="ArrayList" select="getCreateTopics"/>
+        <collection property="followTopics" column="user_id"
+                    javaType="ArrayList" select="getFollowTopics"/>
+        <collection property="followAuthors" column="user_id"
+                    javaType="ArrayList" select="getFollowAuthors"/>
+        <collection property="authorsFans" column="user_id"
+                    javaType="ArrayList" select="getAuthorsFans"/>
+        <collection property="articleViews" column="user_id"
+                    javaType="ArrayList" select="getArticleViews"/>
+        <collection property="articleLike" column="user_id"
+                    javaType="ArrayList" select="getAuthorLike"/>
+    </resultMap>
+    <!--作者详情主查询-->
+    <select id="getUserDetails" parameterType="Integer" resultMap="userView">
+        SELECT *
+        FROM t_user u
+        WHERE u.user_id=#{user_id}
+    </select>
+    <!--子查询，作者创建的话题-->
+    <select id="getCreateTopics" parameterType="Integer" resultType="Topic">
+        SELECT *
+        FROM t_user u,t_topic t
+        WHERE u.user_id=t.user_id AND
+        u.user_id=#{user_id}
+    </select>
+    <!--子查询，关注的话题-->
+    <select id="getFollowTopics" parameterType="Integer" resultType="Topic">
+        SELECT *
+        FROM t_topic_follow f,t_topic t
+        WHERE f.topic_id=t.topic_id AND
+        f.user_id=#{user_id}
+    </select>
+    <!--子查询，关注的人-->
+    <select id="getFollowAuthors" parameterType="Integer" resultType="User">
+        SELECT u.nickname AS nickname,u.head AS head
+        FROM t_user u,t_author_follow a
+        WHERE u.user_id=a.id_to AND
+        a.id_from=#{user_id}
+    </select>
+    <!--子查询，作者的粉丝-->
+    <select id="getAuthorsFans" parameterType="Integer" resultType="User">
+        SELECT u.nickname AS nickname,u.head AS head
+        FROM t_user u,t_author_follow a
+        WHERE u.user_id=a.id_from AND
+        a.id_to=#{user_id}
+    </select>
+    <!--子查询，作者写的文章-->
+    <select id="getArticleViews" parameterType="Integer" resultType="ArticleView">
+        SELECT *
+        FROM t_article a,t_user u
+        WHERE
+        a.user_id=u.user_id
+        AND
+        u.user_id=#{user_id}
+        ORDER BY a.read_count DESC
+    </select>
+
+    <!--个人中心结果集-->
+    <resultMap id="personalView" type="UserView">
+        <id property="user_id" column="user_id"/>
+        <result property="nickname" column="nickname"/>
+        <result property="head" column="head"/>
+        <result property="write_count" column="write_count"/>
+        <result property="fans_count" column="fans_count"/>
+        <collection property="createTopic" column="user_id"
+                    javaType="ArrayList" select="getMyCreateTopics"/>
+        <collection property="followTopics" column="user_id"
+                    javaType="ArrayList" select="getMyFollowTopics"/>
+        <collection property="followAuthors" column="user_id"
+                    javaType="ArrayList" select="getMyFollowAuthors"/>
+        <collection property="articleViews" column="user_id"
+                    javaType="ArrayList" select="getMyArticleViews"/>
+        <collection property="articleLike" column="user_id"
+                    javaType="ArrayList" select="getAuthorLike"/>
+    </resultMap>
+    <!--个人中心查询主查询-->
+    <select id="getPersonalMsg" parameterType="Integer" resultMap="personalView">
+        SELECT *
+        FROM t_user u
+        WHERE u.user_id=#{user_id}
+    </select>
+    <!--子查询，我创建的话题-->
+    <select id="getMyCreateTopics" parameterType="Integer" resultType="Topic">
+        SELECT *
+        FROM t_user u,t_topic t
+        WHERE u.user_id=t.user_id AND
+        u.user_id=#{user_id}
+    </select>
+    <!--子查询，我关注的话题-->
+    <select id="getMyFollowTopics" parameterType="Integer" resultType="Topic">
+        SELECT *
+        FROM t_topic_follow f,t_topic t
+        WHERE f.topic_id=t.topic_id AND
+        f.user_id=#{user_id}
+    </select>
+    <!--子查询，我关注的人-->
+    <select id="getMyFollowAuthors" parameterType="Integer" resultType="User">
+        SELECT u.nickname AS nickname,u.head AS head
+        FROM t_user u,t_author_follow a
+        WHERE u.user_id=a.id_to AND
+        a.id_from=#{user_id}
+    </select>
+    <!--子查询，我写的文章-->
+    <select id="getMyArticleViews" parameterType="Integer" resultType="ArticleView">
+        SELECT *
+        FROM t_article a,t_user u
+        WHERE
+        a.user_id=u.user_id
+        AND
+        u.user_id=#{user_id}
+        ORDER BY a.read_count DESC
+    </select>
+
+    <select id="getAuthorLike" parameterType="Integer" resultType="ArticleView">
+        SELECT *
+        FROM t_user u,t_like l,t_article a
+        WHERE
+        u.user_id=a.user_id AND l.article_id=a.article_id AND
+        l.user_id=#{user_id}
+
+    </select>
+    
+    <!--消息结果集-->
+    <resultMap id="messageView" type="MessageView">
+        <id property="user_id" column="user_id"/>
+        <collection property="comments" column="user_id"
+                    javaType="ArrayList" select="getComments"/>
+        <collection property="letters" column="user_id"
+                    javaType="ArrayList" select="getLetters"/>
+        <collection property="authorFollows" column="user_id"
+                    javaType="ArrayList" select="getAuthorFollows"/>
+        <collection property="articleLike" column="user_id"
+                    javaType="ArrayList" select="getArticleLike"/>
+    </resultMap>
+    <!--消息主查询-->
+    <select id="getMessages" parameterType="Integer" resultMap="messageView">
+        SELECT *
+        FROM t_user u
+        WHERE
+        u.user_id=#{user_id}
+    </select>
+    <select id="getComments" parameterType="Integer" resultType="CommentView">
+        SELECT * FROM
+        t_user u,t_comment c,t_article a
+        WHERE c.user_id=u.user_id AND a.article_id=c.article_id AND
+        a.user_id=#{user_id}
+        ORDER BY c.comment_id DESC
+    </select>
+    <select id="getLetters" parameterType="Integer" resultType="LetterView">
+        SELECT *
+        FROM t_user u,t_letter l
+        WHERE l.from_id=u.user_id AND
+        l.to_id=#{user_id}
+        ORDER BY l.letter_id DESC
+    </select>
+    <select id="getAuthorFollows" parameterType="Integer" resultType="User">
+        SELECT u.user_id AS user_id,u.nickname AS nickname,u.head AS head
+        FROM
+        t_user u,t_author_follow a
+        WHERE
+        u.user_id=a.id_from AND
+        a.id_to=#{user_id}
+    </select>
+    <select id="getArticleLike" parameterType="Integer" resultType="ArticleView">
+        SELECT *
+        FROM t_user u,t_like l,t_article a
+        WHERE
+        u.user_id=l.user_id AND l.article_id=a.article_id AND
+        a.user_id=#{user_id}
+
+    </select>
+
+    <resultMap id="signInUser" type="User">
+        <id property="user_id" column="user_id"/>
+        <result property="account" column="account"/>
+        <result property="head" column="head"/>
+    </resultMap>
+    <select id="getUser" parameterType="User" resultMap="signInUser">
+        SELECT u.user_id,u.head
+        FROM t_user u
+        WHERE u.account=#{account} AND u.password=#{password}
+    </select>
+
+</mapper>

@@ -1,0 +1,97 @@
+<div style="margin-top: 10px">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <div class="article">
+            <h1 style="font-size: 34px;font-weight: 700;line-height: 1.3;">{{article.title}}</h1>
+            <a href="#/user/{{article.user_id}}" style="text-decoration: none">
+                <img ng-src="{{article.head}}" class="img-circle" style="width: 48px;height: 48px"/>
+            </a>
+            <div class="ar_zuozhe">作者</div>
+            <div class="text_">{{article.nickname}}</div>
+            <a href="#" class="btn btn-success" style="background-color: #42c02e;padding: 0px;
+            font-size: 12px;width: 45px;height: 20px;border-radius: 8px">
+                +关注
+            </a>
+            <div class="ar_time">{{article.write_time | date:'yyyy-MM-dd HH:mm'}}*<!--时间--></div>
+            <div class="ar_set" style="font-size: 12px;color: #787878;margin-left: 180px;margin-top: -17px">字数 1176</div>
+            <div class="ar_set" style="margin-left: 250px;">阅读 {{article.read_count}}</div>
+            <div class="ar_set" style="margin-left: 320px;">评论 {{article.comment_count}}</div>
+            <div class="ar_set" style="margin-left: 390px;">喜欢 {{article.like_count}}</div>
+            <div style="margin-top: 20px">
+                <img ng-src="{{article.thumbnail}}" style="width: 590px;height: 360px;border-radius: 4px">
+            </div>
+            <p style="line-height: 35px;margin-top: 20px;">
+              {{article.content}}
+            </p>
+
+        </div>
+        <hr/>
+        <div class="ar_author">
+            <div style="border: 1px solid #e6e6e6;border-radius: 4px;background-color: hsla(0,0%,71%,.1);">
+                <img class="img-circle" ng-src="{{article.head}}" style="width: 48px;height: 48px;margin-top: 25px;margin-left: 20px"/>
+                <div class="text_" style="font-size: 18px">{{article.nickname}}</div>
+                <div class="ar_time" style="margin-left: 80px">写了{{article.write_count}}个字,获得了{{article.fans_count}}个喜欢</div>
+                <a href="#" class="btn btn-success" style="background-color: #42c02e;margin-left: 480px;margin-top: -80px;width: 16%;border-radius: 15px;">
+                    +关注
+                </a>
+                <hr/>
+                <div style="margin-bottom: 10px;font-size: 12px;color: #787878;margin-left: 25px;">
+                    {{article.description}}
+                </div>
+            </div>
+        </div>
+        <hr/>
+        <button ng-click="likeArticle()" class="btn like">
+            <span class="glyphicon glyphicon-heart" aria-hidden="true" style="margin-top: 2px;font-size: 27px;margin-left: -20px"></span>
+            <span>喜欢 | {{article.like_count}}</span>
+        </button>
+        <div class="set_comment">
+            <div class="col-md-1">
+                <img ng-src="{{user.head}}" class="img-circle" style="width: 38px;height: 38px"/>
+            </div>
+            <div class="col-md-11">
+                <textarea class="form-control" rows="3" ng-model="content"></textarea>
+                <div style="margin: 20px 0px 30px 410px">
+                    <a href="#" style="text-decoration: none;color: #787878">取消</a>
+                    <button class="btn btn-success" style="background-color: #42c02e;width: 70%" ng-click="insertComment(content)">发送</button>
+                </div>
+            </div>
+            <div>{{article.comment_count}}条评论
+                <a href="#" class="btn just_look">只看作者</a>
+            </div>
+        </div><!--set_comment结束-->
+        <hr/>
+        <div ng-repeat="comment in article.comments " class="comment">
+            <a href="#/user/{{comment.user_id}}" style="text-decoration: none">
+                <img ng-src="{{comment.head}}" class="img-circle" style="width: 38px;height: 38px"/>
+            </a>
+            <div class="text_">{{comment.nickname}}</div>
+            <div style="margin: -10px 0px 0px 47px;font-size: 12px;color: #787878">
+                <span>{{article.comment_count- $index}}楼 · </span>
+                <span>{{comment.comment_time | date:'yyyy-MM-dd HH:mm'}}</span>
+            </div>
+            <p style="line-height: 25px;margin-top: 10px;min-height: 50px">
+                {{comment.content}}
+            </p>
+            <div style="font-size: 13px;"><!--点赞回复标签-->
+                <a href="#" style="text-decoration: none;color: #787878">
+                    <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                    <span>赞</span>
+                </a>
+                <a href="#" style="text-decoration: none;color: #787878">
+                    <span class="glyphicon glyphicon-comment" aria-hidden="true" style="margin-left: 10px"></span>
+                    <span>回复</span>
+                </a>
+            </div>
+            <hr/>
+        </div>
+
+
+    </div>
+    <div class="col-md-3"></div>
+</div>
+
+<!--
+<div>
+    <h2>文章{{id}}详情</h2>
+</div>-->

@@ -1,0 +1,136 @@
+<div>
+    <img src="img/indexImg/indexImg1.png" class="img-polaroid top_img">
+</div>
+<div class="container">
+    <div class="row"><!--使用栅格系统-->
+        <!--左边的专题和文章区域-->
+        <div class="col-md-6 col_6css">
+            <div class="list-group" style="width: 625px;">
+                <div class="list-group-item listItem" >
+                    <div style="margin-bottom: 20px">
+                        <a ng-repeat="topic in topics" href="#/topic/{{topic.topic_id}}" class="topic_css" style="text-decoration: none;color: #333333;">
+                            <img class="img-polaroid" ng-src="{{topic.logo}}" style="height: 32px;height: 32px">
+                            <div class="text_">{{topic.topic_name}}</div>
+                        </a>
+                        <a href="#/allTopic" class="topic_more" style="text-decoration: none;color:#787878;">
+                            更多热门专题 >
+                        </a>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div ng-repeat="article in articles" class="list-group" style="width: 625px;margin-bottom: 10px">
+                <div class="list-group-item listItem"  >
+                    <div style="cursor: pointer"><!--author信息-->
+                        <a href="#/user/{{article.user_id}}" style="text-decoration: none">
+                            <img class="img-circle" ng-src="{{article.head}}" style="height: 32px;height: 32px">
+                        </a>
+                        <div class="text_">{{article.nickname}}<!--作者--></div>
+
+                        <div class="text_" style="color: #787878">
+                            {{article.write_time | date:'yyyy-MM-dd HH:mm'}}<!--时间-->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-9" style="margin-top: 10px"><!--content-->
+                            <a href="#/article/{{article.article_id}}" class="title" style="color: #0f0f0f">
+                                {{article.title}}
+                            </a>
+                            <p class="p"> <!--style="height: 75px;overflow: hidden;text-overflow: ellipsis"-->
+                                {{article.content|limitTo:numLimit}}...
+                            </p>
+                        </div>
+                        <div class="col-md-3" style="margin-top: 12px">
+                            <img ng-src="{{article.thumbnail}}" style="width: 150px;height: 120px;border-radius: 4px">
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 10px;margin-bottom: 20px"><!--底部标签等信息-->
+                        <a href="#/topic/{{article.topic_id}}" class="classify" style="text-decoration: none">{{article.topic_name}}</a>
+                        <a href="#" style="text-decoration: none;color: #787878">
+                            <span class="glyphicon glyphicon-eye-open" aria-hidden="true" style="margin-left: 10px"></span>
+                            <span>{{article.read_count}}</span>
+                        </a>
+                        <a href="#" style="text-decoration: none;color: #787878">
+                            <span class="glyphicon glyphicon-comment" aria-hidden="true" style="margin-left: 10px"></span>
+                            <span>{{article.comment_count}}</span>
+                        </a>
+                        <a href="#" style="text-decoration: none;color: #787878">
+                            <span class="glyphicon glyphicon-heart" aria-hidden="true" style="margin-left: 10px"></span>
+                            <span>{{article.like_count}}</span>
+                        </a>
+                    </div>
+
+
+                </div>
+            </div>
+        </div><!--左边的专题和文章区域-->
+
+        <!--右边的图片-->
+        <div class="col-md-2" style="margin-left: 86px;margin-top: 35px">
+            <img src="img/indexImg/newin.png" style="width: 280px;height: 50px">
+            <img src="img/indexImg/dayin.png" style="width: 280px;height: 50px">
+            <img src="img/indexImg/sevenin.png" style="width: 280px;height: 50px">
+            <img src="img/indexImg/thirtyin.png" style="width: 280px;height: 50px">
+            <img src="img/indexImg/chuban.png" style="width: 280px;height: 50px">
+            <img src="img/indexImg/xiazai.png" style="width: 280px;height: 140px;margin-top: 10px">
+            <div class="list-group" style="width: 280px;margin-top: 30px;">
+                <div class="text_" style="color: #787878">推荐作者</div>
+                <div class="list-group-item" style="border: none">
+                    <div ng-repeat="user in users" class="row" style="margin-bottom: 20px"><!--从这里开始遍历-->
+                        <div class="col-md-2">
+                            <a href="#/user/{{user.user_id}}">
+                                <img class="img-circle" ng-src="{{user.head}}"
+                                     style="width: 48px;height: 48px">
+                            </a>
+
+                        </div>
+                        <div class="col-md-10">
+                            <div class="text_" style="font-weight: 700;color: #333">{{user.nickname}}<!--作者--></div>
+                            <a href="#" class="guanzhu"
+                               style="text-decoration: none;color: #42c02e;position: absolute;left: 200px">
+                                +关注
+                            </a>
+                            <div class="text_" style="margin-top: 10px;color: #969696;font-size: 12px">
+                                写了{{user.write_count}}字 · {{user.fans_count}}喜欢
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <a href="#/allUser" class="look_all" style="text-decoration: none;color:#787878;">
+                        查看全部 >
+                    </a>
+                </div><!--list-group-item结束-->
+
+
+            </div>
+        </div> <!--右边的图片-->
+    </div><!--使用栅格系统-->
+
+</div>
+
+<!--<div>
+    <h2>专题</h2>
+    <li ng-repeat="topic in topics">
+        <a href="#/topic/{{topic.id}}">{{topic.name}}</a>
+    </li>
+    <a href="#/allTopic">更多热点专题</a>
+    <hr/>
+
+    <h2>文章</h2>
+    <li ng-repeat="article in articles">
+        <a href="#/article/{{article.id}}">{{article.name}}</a>
+    </li>
+    <hr/>
+
+    <h2>用户</h2>
+    <li ng-repeat="user in users">
+        <a href="#">{{user.name}}</a>
+    </li>
+    <a href="#/allUser">更多用户推荐</a>
+    <hr/>
+
+</div>-->

@@ -1,0 +1,195 @@
+<div class="col-md-2"></div>
+<div class="col-md-6">
+    <div style="margin-top: 30px">
+        <img class="img-circle" ng-src="{{person.head}}" style="width: 80px;height: 80px">
+        <div style="font-size: 21px;font-weight: 700;margin-top: -10px;margin-left: 30px;display: inline">{{person.nickname}}</div>
+        <div style="cursor: pointer; margin-left: 115px;margin-top: -25px;color: #787878;text-align: center;">
+           <div style="float: left;padding:0px 6px 0px 0px">
+               <div>784</div>
+               <div>关注</div>
+           </div>
+            <div style="float: left;border-left: 1px solid #F0F0F0;padding:0px 6px 0px 6px">
+                <div>{{person.fans_count}}</div>
+                <div>粉丝</div>
+            </div>
+            <div style="float: left;border-left: 1px solid #F0F0F0;padding:0px 6px 0px 6px">
+                <div>234</div>
+                <div>文章</div>
+            </div>
+            <div style="float: left;border-left: 1px solid #F0F0F0;padding:0px 6px 0px 6px">
+                <div>{{person.write_count}}</div>
+                <div>字数</div>
+            </div>
+            <div style="float: left;border-left: 1px solid #F0F0F0;padding:0px 6px 0px 6px">
+                <div>34</div>
+                <div>收获喜欢</div>
+            </div>
+        </div>
+
+        <div class="topTopicCon" style="width: 640px;margin-top: 80px">
+            <ul ng-init='activeTab=1' style="display: inline-block;list-style: none;">
+                <li ng-class='{active:activeTab==1}' ng-click='activeTab=1'
+                    style="float: left;cursor: pointer">
+                    <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+                    <span>我的资料</span>
+
+                </li>
+                <li ng-class='{active:activeTab==2}' ng-click='activeTab=2'
+                    style="float: left;margin-left: 50px;cursor: pointer">
+                    <span class="glyphicon glyphicon-list-alt " aria-hidden="true"></span>
+                    <span>我的文章</span>
+
+                </li>
+
+                <li ng-class='{active:activeTab==3}' ng-click='activeTab=3'
+                    style="float: left;margin-left: 50px;cursor: pointer">
+                    <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+                    <span>我的收藏</span>
+                </li>
+            </ul>
+        </div>
+        <div class="TabCon">
+            <div ng-show='activeTab==1'>
+                <form class="form-horizontal" style="width: 90%">
+                    <div class="form-group" style="margin-top: 60px">
+                        <label for="name" class="col-sm-2 control-label">头像</label>
+                        <div id="headDiv" class="col-sm-10">
+                            <img class="img-circle" ng-src="{{person.head}}" id="userHead" title="点击更改头像"
+                                 onclick="getPicture()" style="width: 80px;height: 80px;margin-top: -30px">
+                        </div>
+                        <input type="file" file-model="myFile" onchange="setImage(this,headDiv,userHead)"
+                        id="photo" style="display: none"/>
+                    </div>
+                    <div class="form-group" style="margin-top: 20px">
+                        <label for="name" class="col-sm-2 control-label">昵称</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="name"
+                                   ng-model="person.nickname"><!--placeholder="{{person.nickname}}"-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">介绍</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" rows="3"
+                                      ng-model="person.description"></textarea><!--placeholder="{{person.description}}"-->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-success btn-default"
+                                    style="margin-left: 175px;width: 30%" ng-click="update(person)">修改</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div ng-show='activeTab==2'>
+                <div class="list-group" style="width: 625px;margin-bottom: 10px">
+                    <div ng-repeat="article in person.articleViews" class="list-group-item listItem"  >
+                        <div style="cursor: pointer"><!--author信息-->
+                            <img class="img-circle" ng-src="{{article.head}}" style="height: 32px;height: 32px">
+                            <div class="text_">{{article.nickname}}</div>
+                            <div class="text_" style="color: #787878">
+                                {{article.write_time | date:'yyyy-MM-dd HH:mm'}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8" style="margin-top: 10px"><!--content-->
+                                <a href="#/article/{{article.article_id}}" class="title" style="color: #0f0f0f">
+                                    {{article.title}}
+                                </a>
+                                <p class="p">
+                                    {{article.content|limitTo:numLimit}}...
+                                </p>
+                            </div>
+                            <div class="col-md-4">
+                                <img ng-src="{{article.thumbnail}}" style="width: 150px;height: 120px;border-radius: 4px">
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 10px;margin-bottom: 20px"><!--底部标签等信息-->
+                            <a href="#" style="text-decoration: none;color: #787878">
+                                <span class="glyphicon glyphicon-eye-open" aria-hidden="true" style="margin-left: 10px"></span>
+                                <span>{{article.read_count}}<!--回复--></span>
+                            </a>
+                            <a href="#" style="text-decoration: none;color: #787878">
+                                <span class="glyphicon glyphicon-comment" aria-hidden="true" style="margin-left: 10px"></span>
+                                <span>{{article.comment_count}}<!--点赞--></span>
+                            </a>
+                            <a href="#" style="text-decoration: none;color: #787878">
+                                <span class="glyphicon glyphicon-heart" aria-hidden="true" style="margin-left: 10px"></span>
+                                <span>{{article.like_count}}<!--喜欢--></span>
+                            </a>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            </div>
+
+            <div ng-show='activeTab==3' ng-repeat="like in person.articleLike">
+                我喜欢了
+                <a href="#/user/{{like.user_id}}" style="text-decoration: none">
+                    <img ng-src="{{like.head}}" style="border-radius: 50%;width: 40px;"/>
+                </a>
+                {{like.nickname}} 的
+                <a href="#/article/{{like.article_id}}">《{{like.title}}》</a>
+                <hr style="color: ghostwhite">
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="col-md-3">
+    <div class="gonggao" style="margin-top: 30px">
+        <h5 style="color: #787878">个人介绍</h5>
+        <div style="margin-top: -27px;margin-left: 220px;color: #787878;cursor: pointer">
+            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+            <span>编辑</span>
+        </div>
+        <p style="line-height: 25px">
+            {{person.description}}
+        </p>
+    </div>
+    <hr/>
+    <div style="font-size: 15px;cursor: pointer">
+        <span class="glyphicon glyphicon-th-large" aria-hidden="true" style="margin-left: 10px"></span>
+        <span>我创建的专题</span>
+        <div ng-repeat="topic in person.createTopic" style="margin-top: 10px">
+            <img class="img-rounded" ng-src="{{topic.logo}}" style="width: 48px;height: 48px;">
+            <span>{{topic.topic_name}}</span>
+        </div>
+    </div>
+
+    <hr/>
+    <div style="font-size: 15px;cursor: pointer">
+        <span class="glyphicon glyphicon-th-large" aria-hidden="true" style="margin-left: 10px"></span>
+        <span>我关注的专题</span>
+        <div ng-repeat="topic in person.followTopics" style="margin-top: 10px">
+            <img class="img-rounded" ng-src="{{topic.logo}}" style="width: 48px;height: 48px;">
+            <span>{{topic.topic_name}}</span>
+        </div>
+    </div>
+    <hr/>
+    <div style="font-size: 15px">
+        <span class="glyphicon glyphicon-heart-empty" aria-hidden="true" style="margin-left: 10px"></span>
+        <span>我关注的作者</span>
+        <div style="margin-top: 10px">
+            <img ng-repeat="author in person.followAuthors" class="img-circle" ng-src="{{author.head}}" style="width: 48px;height: 48px;">
+            <!--<span>{{author.nickname}}</span>-->
+        </div>
+    </div>
+    <hr/>
+
+</div>
+<div class="col-md-1"></div>
+<!--
+<div>
+    <h2>专题{{id}}详情</h2>
+</div>-->
+
+
+<!--
+<div>
+    <h2>个人中心页面</h2>
+</div>-->

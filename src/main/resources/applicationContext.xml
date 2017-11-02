@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!--引入数据库配置文件 -->
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+
+    <!-- 启动上下文的注解配置 -->
+    <context:annotation-config/>
+
+    <!--扫描含有注解的包-->
+    <context:component-scan base-package="cn.ludan.jianshu.service.impl"/>
+
+    <!--配置数据源-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+          init-method="init" destroy-method="close">
+        <!-- 驱动名称 -->
+        <property name="driverClassName" value="${jdbc.driverClassName}"/>
+        <!-- JDBC连接串 -->
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <!-- 数据库密码 -->
+        <property name="password" value="${jdbc.password}"/>
+        <!-- 初始化大小 -->
+        <property name="initialSize" value="15"/>
+        <!-- 连接池最大使用连接数量 -->
+        <property name="maxActive" value="20"/>
+        <!-- 连接池最小空闲 -->
+        <property name="minIdle" value="0"/>
+        <!-- 配置获取连接等待超时的时间 -->
+        <property name="maxWait" value="60000"/>
+        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="60000"/>
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+        <property name="minEvictableIdleTimeMillis" value="300000"/>
+        <!-- 连接空闲时测试是否有效 -->
+        <property name="testWhileIdle" value="false"/>
+        <!-- 获取连接时测试是否有效 -->
+        <property name="testOnBorrow" value="false"/>
+        <!-- 归还连接时是否测试有效 -->
+        <property name="testOnReturn" value="false"/>
+        <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+        <property name="poolPreparedStatements" value="true"/>
+        <property name="maxPoolPreparedStatementPerConnectionSize"
+                  value="20"/>
+    </bean>
+
+
+    <!--配置Session工厂实例-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="mapperLocations" value="classpath*:/cn/ludan/jianshu/mapper/*.xml"/>
+        <property name="dataSource" ref="dataSource"></property>
+        <property name="typeAliasesPackage" value="cn.ludan.jianshu.model"></property>
+    </bean>
+
+    <!--扫描Mapper接口与文件-->
+    <bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="cn.ludan.jianshu.dao"/>
+        <property name="markerInterface" value="cn.ludan.jianshu.dao.BaseDAO"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <property name="properties">
+            <value>
+                mappers = cn.ludan.jianshu.dao.BaseDAO
+                IDENTITY = MYSQL
+            </value>
+        </property>
+    </bean>
+
+    <!--配置事务管理器实例-->
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+          p:dataSource-ref="dataSource"/>
+
+    <!-- 使用注解声明事务管理，需要使用事务的类，必须加上@Transactional注解 -->
+    <tx:annotation-driven transaction-manager="txManager"/>
+
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
+    p:defaultEncoding="UTF-8" p:maxUploadSize="5242880">
+
+    </bean>
+</beans>
